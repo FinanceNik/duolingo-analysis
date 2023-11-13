@@ -26,11 +26,14 @@ in order to get deep insights into your language learning progress.
 ---
 
 ## Step-by-step guide
+1. Download your Duolingo data from [here](https://www.duolingo.com/settings/account) (you need to be logged in)
+2. Scroll down to the "Export My Data" section and click on "Request Export" (Export can take up to 30 Days, but usually
+   takes only a few hours)
+3. Unzip the downloaded file
+4. Run the tool with the following command: python3 main.py
+5. Go to the import data section and select the unzipped file
+6. Upload your data and go to the "your review" section
+7. Choose whether to analyze data as a whole or by language 
+8. Enjoy the insights!
 
-1. Download your Duolingo data from [here](https://drive-thru.duolingo.com/access) (you need to be logged in)
-2. Unzip the downloaded file
-3. Run the tool with the following command: python3 main.py
-4. Go to the import data section and select the unzipped file
-5. Upload your data and go to the "your review" section
-6. Choose whether to analyze data as a whole or by language
-7. Enjoy the insights!
+---
