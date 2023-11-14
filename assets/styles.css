@@ -1,0 +1,28 @@
+:root {
+--bs-body-font-size: 1rem;
+--primary-color: #58cc02;
+--secondary-color: #ffc200;
+--third-color: #ce82ff;
+}
+
+body {
+    font-family: DIN Next Rounded, sans-serif;
+    font-size: var(--bs-body-font-size);
+}
+
+.nav-link {
+    color: var(--primary-color) !important;
+}
+
+.nav-link:hover {
+    color: var(--third-color) !important;
+}
+
+.nav-link:active {
+    color: green !important;
+}
+
+.flex-column:hover {
+    color: yellow !important;
+}
+

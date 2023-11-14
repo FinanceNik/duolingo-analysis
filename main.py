@@ -1,17 +1,14 @@
 import dash_bootstrap_components as dbc
 import Styles
-import data_handler as dh
 import dash
 from dash.dependencies import Input, Output, State
 from dash import dcc, html, dash_table
-import page_sportsType
-import page_sportsOverview
 import page_about
+import page_analysis
 import base64
 import io
 import pandas as pd
 import datetime
-
 
 basePath = '/duolingo-analysis'
 app = dash.Dash(__name__, suppress_callback_exceptions=True,
@@ -29,9 +26,8 @@ sidebar = html.Div(
                 dbc.NavLink("Your Review", href=f"{basePath}/", active="exact"),
                 dbc.NavLink("Import Data", href=f"{basePath}/import-data", active="exact"),
                 dbc.NavLink("About This App", href=f"{basePath}/about", active="exact"),
-            ],
+            ], style={'color': 'red'},
             vertical=True,
-            pills=True,
         ),
     ],
     style=Styles.SIDEBAR_STYLE,
@@ -41,8 +37,6 @@ content = html.Div(id="page-content", style=Styles.CONTENT_STYLE)
 
 app.layout = html.Div([dcc.Location(id="url"), sidebar, content],
                       style={'backgroundColor': 'white'})
-
-allActivities_Totals = aat = dh.Totals("all", dh.currentYear - 1)
 
 
 def parse_contents(contents, filename, date):
@@ -96,68 +90,36 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
         return children
 
 
-@app.callback(
-    dash.dependencies.Output('dd-output-container', 'children'),
-    [dash.dependencies.Input('SportsSelect', 'value')])
-def update_outputt(value):
-    return page_sportsType.render_page_content(value)
-
-
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
     if pathname == f"{basePath}/":
-        return html.Div(children=[
-            dcc.Tabs(id='tabs-example', value='tab-1', children=[
-                dcc.Tab(label='All Sports ', value='tab-1'),
-                dcc.Tab(label='Select Sports Type', value='tab-2'),
-            ], style=Styles.TAB_STYLE),
-            html.Hr(),
-            html.Div(id='tabs-example-content')])
+        return page_analysis.render_page_content()
 
     elif pathname == f"{basePath}/import-data":
         return html.Div([
-    dcc.Upload(
-        id='upload-data',
-        children=html.Div([
-            'Drag and Drop or ',
-            html.A('Select Files')
-        ]),
-        style={
-            'width': '100%',
-            'height': '60px',
-            'lineHeight': '60px',
-            'borderWidth': '1px',
-            'borderStyle': 'dashed',
-            'borderRadius': '5px',
-            'textAlign': 'center',
-            'margin': '10px'
-        },
-        # Allow multiple files to be uploaded
-        multiple=True
-    ),
-    html.Div(id='output-data-upload'),
-])
+            dcc.Upload(
+                id='upload-data',
+                children=html.Div([
+                    'Drag and Drop or ',
+                    html.A('Select Files')
+                ]),
+                style={
+                    'width': '100%',
+                    'height': '60px',
+                    'lineHeight': '60px',
+                    'borderWidth': '1px',
+                    'borderStyle': 'dashed',
+                    'borderRadius': '5px',
+                    'textAlign': 'center',
+                    'margin': '10px'
+                },
+                # Allow multiple files to be uploaded
+                multiple=True
+            ),
+            html.Div(id='output-data-upload'),
+        ])
     elif pathname == f"{basePath}/about":
         return page_about.render_page_content()
-
-
-@app.callback(Output('tabs-example-content', 'children'),
-              Input('tabs-example', 'value'))
-def render_content(tab):
-    if tab == 'tab-1':
-        return html.Div([
-            page_sportsOverview.render_page_content(),
-        ])
-    elif tab == 'tab-2':
-        return html.Div([
-            html.H3('Please select the language you want to analyze:'),
-            html.Div([
-                dcc.Dropdown(id='SportsSelect', options=[{'label': i, 'value': i}
-                                                         for i in dh.uniqueActivityTypes(dh.currentYear)],
-                             value='Ride'),
-                html.Div(id='dd-output-container'),
-            ], style={'width': '100%', 'padding': Styles.graph_padding}),
-        ])
 
 
 if __name__ == "__main__":
