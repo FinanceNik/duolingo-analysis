@@ -1,4 +1,4 @@
-_---------------------------insert an image here ----------------------------_
+![Alt Text](assets/duolingo_analysis_small.png)
 
 # Duolingo Data Analysis Tool
 
@@ -35,5 +35,4 @@ in order to get deep insights into your language learning progress.
 6. Upload your data and go to the "your review" section
 7. Choose whether to analyze data as a whole or by language 
 8. Enjoy the insights!
-
 ---
