@@ -4,11 +4,26 @@ from dash import dash_table
 greys = ['#2b2b2b', '#ce82ff', '#cfcfcf', '#f0f0f0']
 
 colorPalette = {
-    0: ['#58cc02', '#ffc200', '#ce82ff', '#ffffff'],  # Duolingo's official colors
+    0: ['#58cc02',
+        '#ffc200',
+        '#ce82ff',
+        '#ff4b4b',
+        '#ffc800',
+        '#1cb0f6',
+        '#f49000',
+        '#ffcaff',
+        '#b66e28',
+        '#89e219'],  # Duolingo's official colors
  }
 
 
 colorPalette = colorPalette[0]
+
+
+def get_colors(num_colors):
+    num_colors = min(num_colors, len(colorPalette))
+    return colorPalette[:num_colors]
+
 
 strongGreen = '#37D151'
 strongRed = '#FF5B5B'

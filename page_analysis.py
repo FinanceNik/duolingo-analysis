@@ -7,9 +7,9 @@ from dash import dcc
 def render_page_content():
     averages_instance = dh.Averages()
     totals_instance = dh.Totals()
-
+    languages_instance = dh.Languages()
     return html.Div(children=[
-        html.H1(children='Analysis'),
+        html.H1(children='Your Personal Analysis'),
         html.Hr(),
         html.Div([
             Styles.kpiboxes('Avg. League Score', averages_instance.league(), Styles.colorPalette[0]),
@@ -59,10 +59,37 @@ def render_page_content():
                             'yaxis': {'title': 'Monthly Duo Score'}}}
             ),
         ], style=Styles.STYLE(100)),
-        # html.Div([
-        #     Styles.kpiboxes('',
-        #                     '',
-        #                     Styles.colorPalette[0]),
-        # ]),
-    ])
+        html.Hr(),
+        html.Div([
+            Styles.kpiboxes('Nr. of Languages', languages_instance.count(), Styles.colorPalette[0]),
+            Styles.kpiboxes('Active Days', languages_instance.active_days(), Styles.colorPalette[0]),
+            Styles.kpiboxes('Total lessons', languages_instance.sum_lessons(), Styles.colorPalette[0]),
+            Styles.kpiboxes('Avg. Lessons per Lang.', languages_instance.avg_lessons_language(),
+                            Styles.colorPalette[0]),
+        ]),
+        html.Hr(),
+        html.Div([
+            html.H4(f"Distribution of Lessons"),
+            dcc.Graph(
+                id='Lesson Distribution',
+                figure={'data': [
+                    {'values': list(languages_instance.distributions_lessons().values()),
+                     'labels': list(languages_instance.distributions_lessons().keys()),
+                     'marker': {
+                         'colors': Styles.get_colors(len(list(languages_instance.distributions_lessons().keys())))},
+                     'type': 'pie', 'layout': {'margin': dict(t=0, b=100, l=0, r=0)}}]}),
+        ], style=Styles.STYLE(49)),
+        html.Div([''], style=Styles.FILLER()),
+        html.Div([
+            html.H4(f"Distribution of Active Days"),
+            dcc.Graph(
+                id='Active Days Distribution',
+                figure={'data': [
+                    {'values': list(languages_instance.distributions_days().values()),
+                     'labels': list(languages_instance.distributions_days().keys()),
+                     'marker': {
+                         'colors': Styles.get_colors(len(list(languages_instance.distributions_days().keys())))},
+                     'type': 'pie', 'layout': {'margin': dict(t=0, b=100, l=0, r=0)}}]}),
+        ], style=Styles.STYLE(49)),
 
+    ])
